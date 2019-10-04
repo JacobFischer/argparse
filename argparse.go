@@ -36,6 +36,8 @@ type Parser struct {
 // Options.Required - tells Parser that this argument is required to be provided.
 // useful when specific Command requires some data provided.
 //
+// XXX document Positional, Nargs
+//
 // Options.Validate - is a validation function. Using this field anyone can implement a custom validation for argument.
 // If provided and argument is present, then function is called. If argument also consumes any following values
 // (e.g. as String does), then these are provided as args to function. If validation fails the error must be returned,
@@ -48,11 +50,12 @@ type Parser struct {
 // in case if this argument was not supplied on command line. File default value is a string which it will be open with
 // provided options. In case if provided value type does not match expected, the error will be returned on run-time.
 type Options struct {
-	Required bool
-	Validate func(args []string) error
-	Nargs    interface{}
-	Help     string
-	Default  interface{}
+	Required   bool
+	Positional bool
+	Validate   func(args []string) error
+	Nargs      interface{}
+	Help       string
+	Default    interface{}
 }
 
 // NewParser creates new Parser object that will allow to add arguments for parsing
@@ -127,12 +130,12 @@ func (o *Command) String(short string, long string, opts *Options) *string {
 	var result string
 
 	a := &arg{
-		result:     &result,
-		sname:      short,
-		lname:      long,
-		size:       2,
-		opts:       opts,
-		unique:     true,
+		result: &result,
+		sname:  short,
+		lname:  long,
+		size:   2,
+		opts:   opts,
+		unique: true,
 	}
 
 	o.addArg(a)
@@ -147,12 +150,12 @@ func (o *Command) Strings(short string, long string, opts *Options) *[]string {
 	result := make([]string, 0)
 
 	a := &arg{
-		result:     &result,
-		sname:      short,
-		lname:      long,
-		size:       2,
-		opts:       opts,
-		unique:     true,
+		result: &result,
+		sname:  short,
+		lname:  long,
+		size:   2,
+		opts:   opts,
+		unique: true,
 	}
 
 	o.addArg(a)

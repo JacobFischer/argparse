@@ -23,6 +23,20 @@ type arg struct {
 
 type help struct{}
 
+func (o *arg) assignPositional(args *[]string) {
+	if len(*args) == 0 {
+		return
+	}
+	if !o.opts.Positional {
+		return
+	}
+
+	// XXX move Nargs items from args to oargs value
+	// XXX need to handle types
+	// XXX punting for now and just going with the 'positionals' branch
+}
+
+// check() returns true if argument string matches oarg spec
 func (o *arg) check(argument string) bool {
 	// Shortcut to showing help
 	if argument == "-h" || argument == "--help" {
@@ -100,6 +114,7 @@ func (o *arg) reduce(position int, args *[]string) {
 	}
 }
 
+// parse() sets o.result
 func (o *arg) parse(args []string) error {
 	// If unique do not allow more than one time
 	if o.unique && o.parsed {

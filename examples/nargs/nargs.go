@@ -5,7 +5,7 @@ import (
 	"os"
 	"sort"
 
-	"github.com/jokelyo/argparse"
+	"github.com/stevegt/argparse"
 )
 
 func main() {
@@ -17,6 +17,7 @@ func main() {
 	s3 := parser.Strings("", "strings", &argparse.Options{Help: "One or more arguments", Nargs: "+"})
 	s4 := parser.Strings("", "strings2", &argparse.Options{Help: "Zero or more arguments", Nargs: "*"})
 	s5 := parser.Strings("", "strings3", &argparse.Options{Help: "Requires 3 arguments", Nargs: 3})
+	s6 := parser.Strings("", "pstrings", &argparse.Options{Help: "Zero or more arguments", Nargs: "*", Positional: true})
 	// Create int flags
 	i := parser.Int("i", "int", &argparse.Options{Help: "Silently ignores nargs N value", Nargs: 3})
 	i2 := parser.Int("", "int2", &argparse.Options{Help: "Requires 0 or 1 arguments, Default value set", Nargs: "?", Default: 5})
@@ -38,6 +39,7 @@ func main() {
 		"--strings":  *s3,
 		"--strings2": *s4,
 		"--strings3": *s5,
+		"pstrings":   *s6,
 		"--int":      *i,
 		"--int2":     *i2,
 		"--ints":     *i3,

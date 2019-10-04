@@ -87,11 +87,14 @@ func (o *Command) parse(args *[]string) error {
 	// Iterate over the args
 	for i := 0; i < len(o.args); i++ {
 		oarg := o.args[i]
+		fmt.Println("oarg", oarg)
+		fmt.Println("oarg.opts", oarg.opts)
 		for j := 0; j < len(*args); j++ {
 			arg := (*args)[j]
 			if arg == "" {
 				continue
 			}
+			fmt.Println("arg", arg)
 			if oarg.check(arg) {
 				err := oarg.checkNargs(j, args)
 				if err != nil {
@@ -121,6 +124,11 @@ func (o *Command) parse(args *[]string) error {
 				return err
 			}
 		}
+	}
+
+	// assign any remaining args to any positional oargs
+	for oarg := range o.args {
+		oarg.assignPositional(*args)
 	}
 
 	// Set parsed status to true and return quietly
